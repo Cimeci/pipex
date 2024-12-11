@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:35:16 by inowak--          #+#    #+#             */
-/*   Updated: 2024/11/09 13:49:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/11 11:02:41 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_line(char *s, int c)
 	return (tab);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*new_str;
 	size_t	j;
@@ -92,18 +92,4 @@ char	*ft_strjoin(char *s1, char *s2)
 	new_str[ft_strlen(s1) + j] = '\0';
 	free(s1);
 	return (new_str);
-}
-
-char	*ft_strchr(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	return (0);
 }

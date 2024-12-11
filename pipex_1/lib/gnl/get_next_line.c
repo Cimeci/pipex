@@ -6,23 +6,11 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:35:18 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/09 17:22:08 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:02:34 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen(char *str)
-{
-	size_t	len;
-
-	if (!str)
-		return (0);
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
 
 static char	*read_line(int fd, char *stash)
 {
@@ -44,7 +32,7 @@ static char	*read_line(int fd, char *stash)
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
+		stash = ft_strjoin_gnl(stash, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}

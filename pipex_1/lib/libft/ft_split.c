@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inowak-- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:01:36 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/10 14:35:04 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:01:28 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_count_word(const char *s, char c)
+static size_t	ft_count_word(const char *s, char c)
 {
 	size_t	count;
 

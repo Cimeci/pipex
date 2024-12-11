@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/10 14:46:51 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/11 17:43:40 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,7 @@ PRINTF_FILES = lib/ft_printf/ft_pointer.c\
 GNL_FILES = lib/gnl/get_next_line_utils.c\
 			lib/gnl/get_next_line.c\
 
-LIBFT_FILES = lib/libft/ft_split.c\
-				lib/libft/ft_strncmp.c\
+LIBFT_DIR = lib/libft
 
 SRC = 
 
@@ -44,15 +43,19 @@ SRC_BONUS =
 
 OBJ = $(SRC:.c=.o)
 OBJ_MAIN = $(SRC_MAIN:.c=.o)
-OBJ_LIB = $(PRINTF_FILES:.c=.o) $(GNL_FILES:.c=.o) $(LIBFT_FILES:.c=.o)
+OBJ_LIB = $(PRINTF_FILES:.c=.o) $(GNL_FILES:.c=.o)
+OBJ_LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
 all: $(NAME)
 
+$(OBJ_LIBFT):
+	@cd $(LIBFT_DIR) && make
+
 bonus : $(BONUS)
 
-$(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_MAIN)
-	@$(CC) $(OBJ) $(OBJ_MAIN) $(OBJ_LIB) -o $(NAME)
+$(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_MAIN) $(OBJ_LIBFT)
+	@$(CC) $(OBJ) $(OBJ_MAIN) $(OBJ_LIB) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
 	@echo "$(PURPLE)";
 	@echo " ######    ####    ######   #######  ##  ##";
 	@echo "  ##  ##    ##      ##  ##   ##   #  ##  ##";
@@ -76,14 +79,16 @@ $(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ)
 	@echo "$(RESET)"
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_MAIN)
 	@echo "$(RED)clean$(RESET)";
+	@$(MAKE) clean -C $(LIBFT_DIR)
+	@rm -f $(OBJ) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_MAIN)
 
 fclean: clean
 	@echo "$(YELLOW)remove$(YELLOW) $(RED)$(NAME)$(RESET)";
+	@$(MAKE) fclean -C $(LIBFT_DIR)
 	@rm -f $(NAME)
 	@rm -f $(BONUS)
 
