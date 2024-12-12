@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 14:47:31 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 23:37:40 by marvin           ###   ########.fr       */
+/*   Created: 2024/10/09 15:43:22 by inowak--          #+#    #+#             */
+/*   Updated: 2024/12/12 23:38:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*new_string;
-	int		i;
+	char	*tab;
+	size_t	i;
+	size_t	j;
 
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	new_string = malloc(sizeof(char) * (len + 1));
-	if (!new_string)
-		return (NULL);
 	i = 0;
-	while (len > 0)
+	j = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	tab = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!tab)
+		return (NULL);
+	if (s1)
 	{
-		new_string[i] = s[start + i];
-		i++;
-		len--;
+		while (i < ft_strlen(s1))
+			tab[j++] = s1[i++];
 	}
-	new_string[i] = '\0';
-	return (new_string);
+	i = 0;
+	while (i < ft_strlen(s2))
+		tab[j++] = s2[i++];
+	tab[j] = '\0';
+	return (tab);
 }

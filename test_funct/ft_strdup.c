@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 14:47:31 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 23:37:40 by marvin           ###   ########.fr       */
+/*   Created: 2024/10/09 16:55:24 by inowak--          #+#    #+#             */
+/*   Updated: 2024/12/12 23:40:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strdup(const char *s)
 {
-	char	*new_string;
+	char	*tab;
+	int		size;
 	int		i;
 
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	new_string = malloc(sizeof(char) * (len + 1));
-	if (!new_string)
-		return (NULL);
 	i = 0;
-	while (len > 0)
+	size = ft_strlen(s);
+	tab = malloc(sizeof(char) * (size + 1));
+	if (!tab)
+		return (NULL);
+	while (s[i])
 	{
-		new_string[i] = s[start + i];
+		tab[i] = s[i];
 		i++;
-		len--;
 	}
-	new_string[i] = '\0';
-	return (new_string);
+	tab[i] = '\0';
+	return (tab);
 }

@@ -1,1 +1,7 @@
-7
+total 44
+-rw-r--r-- 1 ilan ilan  3099 Dec 12 23:07 Makefile
+-rw-r--r-- 1 ilan ilan     0 Dec 12 23:16 infile
+drwxr-xr-x 5 ilan ilan  4096 Dec 12 23:07 lib
+drwxr-xr-x 2 ilan ilan  4096 Dec 12 23:18 mandatory
+-rw-r--r-- 1 ilan ilan     0 Dec 12 23:18 outfile
+-rwxr-xr-x 1 ilan ilan 32712 Dec 12 23:18 pipex

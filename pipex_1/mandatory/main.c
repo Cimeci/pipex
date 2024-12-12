@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:49:45 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 08:45:06 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/12 23:32:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*find_path(char **env, char *cmd)
 
 int	main(int argc, char **argv, char **env)
 {
-	if (argc < 5)
+	if (argc < 4)
 	{
 		ft_printf("Error\n");
 		return (0);
@@ -91,30 +91,31 @@ int	main(int argc, char **argv, char **env)
 
 	char *pathname_1 = find_path(env, argv[2]);
 	char *pathname_2 = find_path(env, argv[3]);
-	int *fd;
-	fd = malloc(sizeof(int) * 2);
+	int pipe_fd[2];
+	if (pipe(pipe_fd) == -1)
+		ft_puterror();
 	if (pathname_1 || pathname_2)
 	{
-		fd[1] = open(argv[1], O_RDONLY);
-		if (fd[1] == -1)
+		pipe_fd[1] = open(argv[1], O_RDONLY);
+		if (pipe_fd[1] == -1)
 			return (0);
-		dup2(fd[1], STDIN_FILENO);
-		close (fd[1]);
-		fd[0] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd[0] == -1)
+		dup2(pipe_fd[1], STDIN_FILENO);
+		close (pipe_fd[1]);
+		pipe_fd[0] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (pipe_fd[0] == -1)
 			return (0);
-	    dup2(fd[0], STDOUT_FILENO);
-    	close(fd[0]);
+	    dup2(pipe_fd[0], STDOUT_FILENO);
+    	close(pipe_fd[0]);
 		execve(pathname_1, ft_split(argv[2], ' '), env);
 		free(pathname_1);
 
-		fd[1] = open(argv[4], O_RDONLY);
-		if (fd[1] == -1)
+		pipe_fd[1] = open(argv[4], O_RDONLY);
+		if (pipe_fd[1] == -1)
 			return (0);
-		dup2(fd[1], STDIN_FILENO);
-		close (fd[1]);
+		dup2(pipe_fd[1], STDIN_FILENO);
+		close (pipe_fd[1]);
 		execve(pathname_2, ft_split(argv[3], ' '), env);
 		free(pathname_2);
 	}
-	free(fd);
+	free(pipe_fd);
 }
