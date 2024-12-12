@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 09:11:27 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 17:08:37 by inowak--         ###   ########.fr       */
+/*   Created: 2024/12/12 07:42:59 by inowak--          #+#    #+#             */
+/*   Updated: 2024/12/12 07:43:12 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
-int main()
+#include "../libft.h"
+
+void	ft_free(char **tab)
 {
-    pid_t p = fork();
-    if(p<0){
-      perror("fork fail");
-      exit(0);
-    }
-    printf("Hello world!, process_id(pid) = %d \n",getpid());
-    printf("hello\n");
-    fork();
-    fork();
-    fork();
-    return 0;
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }

@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/09 12:54:05 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/11 14:03:03 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/12 07:47:21 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,13 +61,18 @@ BONUS = ft_lstnew_bonus.c\
 		ft_lstiter_bonus.c\
 		ft_lstmap_bonus.c\
 
-OBJ = $(SRC:.c=.o) $(BONUS:.c=.o)
+ADDON = addon/ft_free.c\
+
+OBJ = $(SRC:.c=.o) $(BONUS:.c=.o) $(ADDON:.c=.o)
 
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(AR) $(NAME) $(OBJ)
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

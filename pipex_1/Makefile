@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/11 17:43:40 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/12 07:40:49 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 all: $(NAME)
 
 $(OBJ_LIBFT):
-	@cd $(LIBFT_DIR) && make
+	@cd $(LIBFT_DIR) && make > /dev/null
 
 bonus : $(BONUS)
 
@@ -82,13 +82,13 @@ $(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ)
 	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
 clean:
-	@echo "$(RED)clean$(RESET)";
-	@$(MAKE) clean -C $(LIBFT_DIR)
+	@echo "$(RED)clean$(RESET)"
+	@$(MAKE) clean -C $(LIBFT_DIR) > /dev/null
 	@rm -f $(OBJ) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_MAIN)
 
 fclean: clean
-	@echo "$(YELLOW)remove$(YELLOW) $(RED)$(NAME)$(RESET)";
-	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@echo "$(YELLOW)remove$(YELLOW) $(RED)$(NAME)$(RESET)"
+	@$(MAKE) fclean -C $(LIBFT_DIR) > /dev/null
 	@rm -f $(NAME)
 	@rm -f $(BONUS)
 

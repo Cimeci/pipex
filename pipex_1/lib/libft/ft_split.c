@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:01:36 by inowak--          #+#    #+#             */
-/*   Updated: 2024/10/09 18:01:28 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/12 07:46:45 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	ft_count_word(const char *s, char c)
 	return (count);
 }
 
-static void	*ft_free(char **tab, size_t i)
+static void	*ft_free_index(char **tab, size_t i)
 {
 	while (i-- > 0)
 		free(tab[i]);
@@ -78,7 +78,7 @@ static char	**ft_splitv2(char const *s, char c, char **tab)
 		{
 			tab[j] = ft_strdup_pimp(&s[i], c);
 			if (!tab[j])
-				return (ft_free(tab, j));
+				return (ft_free_index(tab, j));
 			j++;
 			while (s[i] && s[i] != c)
 				i++;

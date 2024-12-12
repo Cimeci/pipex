@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:49:45 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/11 18:30:25 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/12 08:45:06 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,6 @@ void	printf_double_char(char **str)
 		ft_printf("%s\n", str[i++]);
 }
 
-void	ft_free(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
-
 char	*find_path(char **env, char *cmd)
 {
 	char	**cmd_split;
@@ -93,21 +83,38 @@ char	*find_path(char **env, char *cmd)
 
 int	main(int argc, char **argv, char **env)
 {
-	if (argc < 2)
+	if (argc < 5)
 	{
 		ft_printf("Error\n");
 		return (0);
 	}
-	char *result = my_getenv("PATH", env);
-	char *pathname = find_path(env, argv[1]);
-	if (result && pathname)
+
+	char *pathname_1 = find_path(env, argv[2]);
+	char *pathname_2 = find_path(env, argv[3]);
+	int *fd;
+	fd = malloc(sizeof(int) * 2);
+	if (pathname_1 || pathname_2)
 	{
-		// ft_printf("My getenv :\n");
-		// ft_printf("%s\n", result);
-		// ft_printf("\n");
-		// ft_printf("Find Path :\n");
-		// ft_printf("%s\n", pathname);
-		execve(pathname, ft_split(argv[1], ' '), env);
-		free(pathname);
+		fd[1] = open(argv[1], O_RDONLY);
+		if (fd[1] == -1)
+			return (0);
+		dup2(fd[1], STDIN_FILENO);
+		close (fd[1]);
+		fd[0] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd[0] == -1)
+			return (0);
+	    dup2(fd[0], STDOUT_FILENO);
+    	close(fd[0]);
+		execve(pathname_1, ft_split(argv[2], ' '), env);
+		free(pathname_1);
+
+		fd[1] = open(argv[4], O_RDONLY);
+		if (fd[1] == -1)
+			return (0);
+		dup2(fd[1], STDIN_FILENO);
+		close (fd[1]);
+		execve(pathname_2, ft_split(argv[3], ' '), env);
+		free(pathname_2);
 	}
+	free(fd);
 }
