@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:27 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 23:41:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/13 18:07:26 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
+
+typedef struct s_pipex
+{
+	int		pipe_fd[2];
+	pid_t	pid[2];
+}			t_pipex;
 
 char	*my_getenv(const char *name, char **env)
 {
@@ -75,75 +81,98 @@ char	*find_path(char **env, char *cmd)
 	return (NULL);
 }
 
-void	error_exit(const char *msg)
+void	error_exit(const char *msg, t_pipex *pipex)
 {
 	perror(msg);
+	free(pipex);
 	exit(EXIT_FAILURE);
 }
 
-int	main(int argc, char **argv, char **env)
+void ft_child_init(t_pipex *pipex, char *file, char *cmd, char **env)
 {
-	if (argc != 5)
+	int infile;
+	char *pathname;
+
+	pipex->pid[0] = fork();
+	if (pipex->pid[0] == -1)
+		error_exit("Fork failed", pipex);
+	if (pipex->pid[0] == 0) // Processus 1er enfant
 	{
-		fprintf(stderr, "Usage: ./pipex infile cmd1 cmd2 outfile\n");
-		return (EXIT_FAILURE);
-	}
-
-	int pipe_fd[2];
-	if (pipe(pipe_fd) == -1)
-		error_exit("Pipe failed");
-
-	// Fork pour le premier processus
-	pid_t pid1 = fork();
-	if (pid1 == -1)
-		error_exit("Fork failed");
-
-	if (pid1 == 0) // Processus enfant 1
-	{
-		int infile = open(argv[1], O_RDONLY);
+		infile = open(file, O_RDONLY);
 		if (infile == -1)
-			error_exit("Error opening infile");
+			error_exit("Error opening infile", pipex);
 		dup2(infile, STDIN_FILENO);
-		dup2(pipe_fd[1], STDOUT_FILENO); // Écrit dans le pipe
+		dup2(pipex->pipe_fd[1], STDOUT_FILENO); // Écrit dans le pipe
 		close(infile);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
+		close(pipex->pipe_fd[0]);
+		close(pipex->pipe_fd[1]);
 
-		char *pathname_1 = find_path(env, argv[2]);
-		if (!pathname_1)
-			error_exit("Command not found");
-		execve(pathname_1, ft_split(argv[2], ' '), env);
-		error_exit("Execve failed");
+		pathname = find_path(env, cmd);
+		if (!pathname)
+			error_exit("Command not found", pipex);
+		if (execve(pathname, ft_split(cmd, ' '), env) == -1)
+			error_exit("Execve failed", pipex);
 	}
+}
 
-	// Fork pour le deuxième processus
-	pid_t pid2 = fork();
-	if (pid2 == -1)
-		error_exit("Fork failed");
+void ft_child(t_pipex *pipex, char *file, char *cmd, char **env)
+{
+	int outfile;
+	char *pathname;
 
-	if (pid2 == 0) // Processus enfant 2
+	pipex->pid[1] = fork();
+	if (pipex->pid[1] == -1)
+		error_exit("Fork failed", pipex);
+	if (pipex->pid[1] == 0) // enfants
 	{
-		int outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile == -1)
-			error_exit("Error opening outfile");
-		dup2(pipe_fd[0], STDIN_FILENO); // Lit depuis le pipe
+			error_exit("Error opening outfile", pipex);
+		dup2(pipex->pipe_fd[0], STDIN_FILENO); // Lit depuis le pipe
 		dup2(outfile, STDOUT_FILENO);
 		close(outfile);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
+		close(pipex->pipe_fd[0]);
+		close(pipex->pipe_fd[1]);
 
-		char *pathname_2 = find_path(env, argv[3]);
-		if (!pathname_2)
-			error_exit("Command not found");
-		execve(pathname_2, ft_split(argv[3], ' '), env);
-		error_exit("Execve failed");
+		pathname = find_path(env, cmd);
+		if (!pathname)
+			error_exit("Command not found", pipex);
+		if (execve(pathname, ft_split(cmd, ' '), env) == -1)
+			error_exit("Execve failed", pipex);
 	}
+}
 
+
+int	main(int argc, char **argv, char **env)
+{
+	t_pipex *pipex;
+	// int i;
+	
+	if (argc < 5)
+	{
+		printf("Usage: ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2\n");
+		return (EXIT_FAILURE);
+	}
+	// i = argc - 4;
+	pipex = malloc(sizeof(t_pipex));
+	if (!pipex)
+		error_exit("Malloc failed", pipex);
+
+	if (pipe(pipex->pipe_fd) == -1)
+		error_exit("Pipe failed", pipex);
+
+	// premier processus
+	ft_child_init(pipex, argv[1], argv[2], env);
+	// while (i > 0)
+	// {
+	ft_child(pipex, argv[argc - 1], argv[3], env);
+	// 	i--;
+	// }
 	// Parent : Fermer les descripteurs et attendre les enfants
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
-
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	waitpid(pipex->pid[0], NULL, 0);
+	waitpid(pipex->pid[1], NULL, 0);
+	free(pipex);
 	return (EXIT_SUCCESS);
 }
