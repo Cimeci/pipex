@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:27 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/13 18:07:26 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/15 04:20:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,15 @@ void ft_child(t_pipex *pipex, char *file, char *cmd, char **env)
 	}
 }
 
+char *get_command(char *cmd)
+{
+    char *last_slash;
+
+    last_slash = strrchr(cmd, '/');
+    if (last_slash)
+        return last_slash + 1;
+    return cmd;
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -161,13 +170,24 @@ int	main(int argc, char **argv, char **env)
 	if (pipe(pipex->pipe_fd) == -1)
 		error_exit("Pipe failed", pipex);
 
+	if (!access(argv[2], F_OK | X_OK))
+	{
+		argv[2] = get_command(argv[2]);
+    	printf("%s\n", argv[2]);
+	}
+
 	// premier processus
 	ft_child_init(pipex, argv[1], argv[2], env);
-	// while (i > 0)
-	// {
+		
+	if (!access(argv[3], F_OK | X_OK))
+	{
+		argv[3] = get_command(argv[3]);
+    	printf("%s\n", argv[3]);
+	}
+
+	// deuxieme processus
 	ft_child(pipex, argv[argc - 1], argv[3], env);
-	// 	i--;
-	// }
+
 	// Parent : Fermer les descripteurs et attendre les enfants
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);

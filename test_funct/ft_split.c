@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 13:01:36 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 23:38:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/15 02:24:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
 
-static size_t	ft_count_word(const char *s, char c)
+size_t	ft_count_word(const char *s, char c)
 {
 	size_t	count;
 
