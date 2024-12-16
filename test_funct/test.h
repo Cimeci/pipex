@@ -23,10 +23,12 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_gnl(char *s1, char *s2);
 size_t	ft_count_word(const char *s, char c);
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_free(char **tab);
+char	*ft_strrchr(const char *s, int c);
 
 #endif

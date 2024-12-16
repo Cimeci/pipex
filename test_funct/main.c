@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:27 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/15 04:20:36 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/16 13:33:41 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,27 +142,55 @@ void ft_child(t_pipex *pipex, char *file, char *cmd, char **env)
 	}
 }
 
-char *get_command(char *cmd)
+char *get_command(char **split)
 {
-    char *last_slash;
+	char *result;
+	int i;
+	char *tmp;
 
-    last_slash = strrchr(cmd, '/');
-    if (last_slash)
-        return last_slash + 1;
-    return cmd;
+	i = 1;
+	result = ft_strdup(ft_strrchr(split[0], '/') + 1);
+	if (!result)
+		return (NULL);
+	while (split[i])
+	{
+		tmp = result;
+		result = ft_strjoin(tmp, " ");
+		free(tmp);
+		tmp = NULL;
+		tmp = result;
+		result = ft_strjoin(tmp, split[i]);
+		free(tmp);
+		tmp = NULL;
+		i++;
+	}
+	return (result);
+}
+
+void	ft_adult(t_pipex *pipex, char **argv)
+{
+	char **split;
+	int info_2;
+	int info_3;
+
+	info_2 = 0;
+	info_3 = 0;
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_pipex *pipex;
-	// int i;
-	
+	char **split;
+	int info_2;
+	int info_3;
+
+	info_2 = 0;
+	info_3 = 0;
 	if (argc < 5)
 	{
 		printf("Usage: ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2\n");
 		return (EXIT_FAILURE);
 	}
-	// i = argc - 4;
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
 		error_exit("Malloc failed", pipex);
@@ -170,21 +198,25 @@ int	main(int argc, char **argv, char **env)
 	if (pipe(pipex->pipe_fd) == -1)
 		error_exit("Pipe failed", pipex);
 
-	if (!access(argv[2], F_OK | X_OK))
+	split = ft_split(argv[2], ' ');
+	if (!access(split[0], F_OK | X_OK))
 	{
-		argv[2] = get_command(argv[2]);
-    	printf("%s\n", argv[2]);
+		argv[2] = get_command(split);
+		info_2++;
 	}
+	ft_free(split);
+	split = NULL;
 
 	// premier processus
 	ft_child_init(pipex, argv[1], argv[2], env);
-		
-	if (!access(argv[3], F_OK | X_OK))
-	{
-		argv[3] = get_command(argv[3]);
-    	printf("%s\n", argv[3]);
-	}
 
+	split = ft_split(argv[3], ' ');
+	if (!access(split[0], F_OK | X_OK))
+	{
+		argv[3] = get_command(split);
+		info_3++;
+	}
+	ft_free(split);
 	// deuxieme processus
 	ft_child(pipex, argv[argc - 1], argv[3], env);
 
@@ -193,6 +225,11 @@ int	main(int argc, char **argv, char **env)
 	close(pipex->pipe_fd[1]);
 	waitpid(pipex->pid[0], NULL, 0);
 	waitpid(pipex->pid[1], NULL, 0);
+
+	if (info_2 > 0)
+		free(argv[2]);
+	if (info_3 > 0)
+		free(argv[3]);
 	free(pipex);
 	return (EXIT_SUCCESS);
 }
