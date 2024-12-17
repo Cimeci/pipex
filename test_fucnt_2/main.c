@@ -2,99 +2,84 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/16 13:52:12 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/16 13:52:12 by inowak--         ###   ########.fr       */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
+/*   Created: 2024/12/17 08:38:38 by inowak--          #+#    #+#             */
+/*   Updated: 2024/12/17 08:38:38 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gnl/get_next_line.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <sys/wait.h>
 
-char **ft_split(char const *s, char c);
 
-void handle_child(int i, int n_cmds, int pipes[][2], int infile_fd, int outfile_fd, char **cmd, char **envp) {
-    if (i == 0)
-        dup2(infile_fd, STDIN_FILENO);
-    else
-        dup2(pipes[i - 1][0], STDIN_FILENO);
+int	main(int argc, char **argv)
+{
+	if (argc != 3)
+		return (0);
 
-    if (i == n_cmds - 1)
-        dup2(outfile_fd, STDOUT_FILENO);
-    else
-        dup2(pipes[i][1], STDOUT_FILENO);
-
-    // Fermer tous les pipes dans les processus enfants
-    for (int j = 0; j < n_cmds - 1; j++) {
-        close(pipes[j][0]);
-        close(pipes[j][1]);
-    }
-
-    execve(cmd[0], cmd, envp);
-    perror("execve failed");
-    exit(EXIT_FAILURE);
-}
-
-void multi_pipe(int n_cmds, char **cmds[], char **envp, int infile_fd, int outfile_fd) {
-    int pipes[n_cmds - 1][2];
-    pid_t pids[n_cmds];
-
-    for (int i = 0; i < n_cmds - 1; i++) {
-        if (pipe(pipes[i]) == -1) {
-            perror("Pipe error");
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    for (int i = 0; i < n_cmds; i++) {
-        pids[i] = fork();
-        if (pids[i] == 0) {
-            handle_child(i, n_cmds, pipes, infile_fd, outfile_fd, cmds[i], envp);
-        }
-    }
-
-    // Parent: fermer tous les pipes
-    for (int i = 0; i < n_cmds - 1; i++) {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-    }
-
-    // Attendre tous les enfants
-    for (int i = 0; i < n_cmds; i++) {
-        waitpid(pids[i], NULL, 0);
-    }
-}
-
-int main(int argc, char **argv, char **envp) {
-    if (argc != 6)
+	int pipefd[2];
+	if (pipe(pipefd) == -1)
 	{
-        printf("Usage: ./a.out infile cmd1 cmd2 cmdn outfile\n");
-        return EXIT_FAILURE;
-    }
+		perror("Pipe failed");
+		return (0);
+	}
 
-    int infile_fd = open(argv[1], O_RDONLY);
-    int outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (infile_fd < 0 || outfile_fd < 0)
+	printf("Pipe créé avec pipefd[0] = %d (lecture) et pipefd[1] =
+		%d (écriture)\n", pipefd[0], pipefd[1]);
+
+	int fd1 = open(argv[1], O_RDONLY);
+	if (fd1 < 0)
 	{
-        perror("File open error");
-        return EXIT_FAILURE;
-    }
+		perror("ERROR fd1");
+		return (0);
+	}
 
-    char **cmd1 = ft_split(argv[2], ' ');
-    char **cmd2 = ft_split(argv[3], ' ');
-    char **cmd3 = ft_split(argv[4], ' ');
+	char *line;
 
-    char **cmds[] = {cmd1, cmd2, cmd3};
+	line = get_next_line(fd1);
+	while (line)
+	{
+		if (line)
+			write(pipefd[1], line, ft_strlen(line));
+		free(line);
+		line = get_next_line(fd1);
+		if (!line)
+			break ;
+	}
+	close(fd1);
+	close(pipefd[1]);
 
-    multi_pipe(3, cmds, envp, infile_fd, outfile_fd);
+	int fd2 = open(argv[2], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (fd2 < 0)
+	{
+		perror("ERROR fd2");
+		return (0);
+	}
 
-    close(infile_fd);
-    close(outfile_fd);
+	char *buffer;
+	ssize_t bytes_read = 1;
 
-    return 0;
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	while (bytes_read > 0)
+	{
+		bytes_read = read(pipefd[0], buffer, BUFFER_SIZE);
+		buffer[bytes_read] = '\0';
+		if (bytes_read < 0)
+		{
+			perror("Read error");
+			return (0);
+		}
+		write(fd2, buffer, bytes_read);
+	}
+	close(pipefd[0]);
+	close(fd2);
+	return (0);
 }

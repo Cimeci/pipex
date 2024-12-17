@@ -1,0 +1,2 @@
+Ceci est écrit dans le fichier.
+Redirection réussie avec dup2 !

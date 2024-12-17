@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 09:11:27 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/16 16:11:59 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:18:04 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ int	main(int argc, char **argv, char **env)
 		error_exit("Pipe failed", pipex);
 
 /////////////////////////////////
-
 	split = ft_split(argv[2], ' ');
 	if (!access(split[0], F_OK | X_OK))
 	{
