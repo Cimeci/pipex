@@ -3,18 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:49:45 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/12 23:32:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/18 11:29:54 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_puterror(void)
+void	ft_puterror(int i)
 {
-	perror("Error");
+	if (i == 1)
+		perror("Error");
+	if (i == 0)
+		ft_putendl_fd("ERROR\n", 2);
+	if (i == 2)
+		ft_putendl_fd("Invalid format : ./pipex infile cmd1 cmd2 ... cmdn outfile\n", 2);
 	exit(0);
 }
 
