@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/19 11:16:25 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/19 13:19:46 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	parent(t_pipex *pipex, t_data *data)
 {
@@ -21,7 +21,10 @@ void	parent(t_pipex *pipex, t_data *data)
 	{
 		pipex->pid[0] = fork();
 		if (pipex->pid[0] == -1)
+		{
+			ft_free_all(pipex, data);
 			exit(EXIT_FAILURE);
+		}
 		if (pipex->pid[0] == 0)
 		{
 			process_child(pipex, i, *data);
@@ -41,8 +44,8 @@ int	main(int argc, char **argv, char **env)
 	t_pipex	*pipex;
 	t_data	*data;
 
-	if (argc != 5)
-		ft_puterror(3);
+	if (argc < 5)
+		ft_puterror(2);
 	pipex = init_pipex(argc);
 	data = ft_init_data(argc, argv, env, pipex);
 	if (!check_input(data))

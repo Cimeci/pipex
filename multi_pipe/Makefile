@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/18 11:07:23 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/19 11:21:23 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,11 @@ SRC = mandatory/ft_clean.c\
 		mandatory/main.c
 
 
-SRC_BONUS = 
+SRC_BONUS = bonus/ft_clean_bonus.c\
+		bonus/ft_parsing_bonus.c\
+		bonus/ft_init_bonus.c\
+		bonus/ft_process_bonus.c\
+		bonus/main_bonus.c
 
 OBJ = $(SRC:.c=.o)
 OBJ_LIB = $(PRINTF_FILES:.c=.o) $(GNL_FILES:.c=.o)
@@ -80,8 +84,8 @@ $(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT)
 	@echo " ####      ####    ####     #######  ##  ##";
 	@echo "$(RESET)";
 
-$(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ)
-	@$(CC) $(OBJ_LIB) $(OBJ) $(OBJ_BONUS) -o $(BONUS)
+$(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ_LIBFT)
+	@$(CC) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
 	@echo "$(LIGHT_CYAN)"
 	@echo " ######    #####   ##   ##  ##   ##   #####"
 	@echo "  ##  ##  ##   ##  ###  ##  ##   ##  ##   ##"
