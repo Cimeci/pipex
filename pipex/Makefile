@@ -6,12 +6,24 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/12 07:40:49 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/19 18:04:22 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Color #
 
+CYAN     = \033[1;36m
+WHITE    = \033[1;37m
+BLACK    = \033[1;30m
+ORANGE   = \033[38;5;202m  # Couleur spécifique (non standard)
+GRAY     = \033[1;90m
+LIGHT_RED = \033[1;91m
+LIGHT_GREEN = \033[1;92m
+LIGHT_YELLOW = \033[1;93m
+LIGHT_BLUE = \033[1;94m
+LIGHT_PURPLE = \033[1;95m
+LIGHT_CYAN = \033[1;96m
+LIGHT_WHITE = \033[1;97m
 RED    = \033[1;31m
 GREEN  = \033[1;32m
 YELLOW = \033[1;33m
@@ -35,14 +47,22 @@ GNL_FILES = lib/gnl/get_next_line_utils.c\
 
 LIBFT_DIR = lib/libft
 
-SRC = 
+SRC = mandatory/ft_clean.c\
+		mandatory/ft_parsing.c\
+		mandatory/ft_init.c\
+		mandatory/ft_process.c\
+		mandatory/ft_find_path.c\
+		mandatory/main.c
 
-SRC_MAIN = mandatory/main.c\
 
-SRC_BONUS = 
+SRC_BONUS = bonus/ft_clean_bonus.c\
+		bonus/ft_parsing_bonus.c\
+		bonus/ft_init_bonus.c\
+		bonus/ft_process_bonus.c\
+		bonus/ft_find_path_bonus.c\
+		bonus/main_bonus.c
 
 OBJ = $(SRC:.c=.o)
-OBJ_MAIN = $(SRC_MAIN:.c=.o)
 OBJ_LIB = $(PRINTF_FILES:.c=.o) $(GNL_FILES:.c=.o)
 OBJ_LIBFT = $(LIBFT_DIR)/libft.a
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
@@ -54,9 +74,9 @@ $(OBJ_LIBFT):
 
 bonus : $(BONUS)
 
-$(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_MAIN) $(OBJ_LIBFT)
-	@$(CC) $(OBJ) $(OBJ_MAIN) $(OBJ_LIB) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
-	@echo "$(PURPLE)";
+$(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT)
+	@$(CC) $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
+	@echo "$(ORANGE)";
 	@echo " ######    ####    ######   #######  ##  ##";
 	@echo "  ##  ##    ##      ##  ##   ##   #  ##  ##";
 	@echo "  ##  ##    ##      ##  ##   ## #     ####";
@@ -66,9 +86,9 @@ $(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_MAIN) $(OBJ_LIBFT)
 	@echo " ####      ####    ####     #######  ##  ##";
 	@echo "$(RESET)";
 
-$(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ)
-	@$(CC) $(OBJ_LIB) $(OBJ) $(OBJ_BONUS) -o $(BONUS)
-	@echo "$(YELLOW)"
+$(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ_LIBFT)
+	@$(CC) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
+	@echo "$(LIGHT_CYAN)"
 	@echo " ######    #####   ##   ##  ##   ##   #####"
 	@echo "  ##  ##  ##   ##  ###  ##  ##   ##  ##   ##"
 	@echo "  ##  ##  ##   ##  #### ##  ##   ##  #"
@@ -84,7 +104,7 @@ $(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ)
 clean:
 	@echo "$(RED)clean$(RESET)"
 	@$(MAKE) clean -C $(LIBFT_DIR) > /dev/null
-	@rm -f $(OBJ) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_MAIN)
+	@rm -f $(OBJ) $(OBJ_LIB) $(OBJ_BONUS)
 
 fclean: clean
 	@echo "$(YELLOW)remove$(YELLOW) $(RED)$(NAME)$(RESET)"
