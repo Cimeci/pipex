@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:50:00 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/19 18:28:52 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:36:00 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 typedef struct s_pipex
 {
 	int		*pipe_fd;
-	pid_t	pid[2];
+	pid_t	pid;
 }			t_pipex;
 
 typedef struct s_data

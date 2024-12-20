@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/19 18:04:22 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/20 09:44:38 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,4 +115,4 @@ fclean: clean
 re: fclean all
 	@echo "$(NAME) restart"
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

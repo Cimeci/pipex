@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:39:30 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/19 18:26:38 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:36:13 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,11 @@ void	check_input(t_data *data)
 
 	check_file(data);
 	i = 2;
-	while (i < data->argc - 2)
+	while (i < data->argc - 1)
 	{
 		split = ft_split(data->argv[i], ' ');
 		if (!split[0])
 			ft_putendl_fd("Error: Empty command", 2);
-		else if (access(split[0], F_OK | X_OK))
-			perror("Error");
 		ft_free(split);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/19 18:26:41 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:42:05 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	parent(t_pipex *pipex, t_data *data)
 	i = 0;
 	while (i < data->argc - 3)
 	{
-		pipex->pid[0] = fork();
-		if (pipex->pid[0] == -1)
+		pipex->pid = fork();
+		if (pipex->pid == -1)
 			exit(EXIT_FAILURE);
-		if (pipex->pid[0] == 0)
+		if (pipex->pid == 0)
 		{
 			process_child(pipex, i, *data);
 			ft_free_all(pipex, data);
@@ -43,8 +43,8 @@ int	main(int argc, char **argv, char **env)
 	int		i;
 
 	i = 0;
-	if (argc != 5)
-		ft_puterror(3);
+	if (argc < 5)
+		ft_puterror(2);
 	pipex = init_pipex(argc);
 	data = ft_init_data(argc, argv, env, pipex);
 	check_input(data);
