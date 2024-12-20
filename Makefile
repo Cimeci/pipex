@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/20 10:05:00 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/20 10:13:07 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 CYAN     = \033[1;36m
 WHITE    = \033[1;37m
 BLACK    = \033[1;30m
-ORANGE   = \033[38;5;202m  # Couleur spécifique (non standard)
+ORANGE   = \033[38;5;202m
 GRAY     = \033[1;90m
 LIGHT_RED = \033[1;91m
 LIGHT_GREEN = \033[1;92m
