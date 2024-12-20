@@ -6,13 +6,13 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/20 08:12:11 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:46:22 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	exec_before_path(char *cmd, char **env, char **cmd_args, char **split)
+static int	exec_bef_path(char *cmd, char **env, char **cmd_args, char **split)
 {
 	if (execve(cmd, ft_split(get_command(cmd_args), ' '), env) == -1)
 	{
@@ -44,7 +44,7 @@ static int	execute_command(char *cmd, char **env)
 	cmd_a = ft_split(cmd, ' ');
 	if (execve(pn, cmd_a, env) == -1 && execve(cmd_a[0], cmd_a, env) == -1)
 	{
-		if (!exec_before_path(cmd, env, cmd_a, split))
+		if (!exec_bef_path(cmd, env, cmd_a, split))
 			free(pn);
 	}
 	else
@@ -96,7 +96,7 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 {
 	int	read_end;
 	int	write_end;
-	int index_error;
+	int	index_error;
 
 	if (idx == 0 || idx == data.argc - 4)
 		handle_to_first_last(pipex, idx, data);

@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:37:23 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/20 08:19:13 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 08:38:39 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_data	*ft_init_data(int argc, char **argv, char **env, t_pipex *pipex)
 t_pipex	*init_pipex(int argc)
 {
 	t_pipex	*pipex;
-	// int		i;
+	int		i;
 
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
@@ -51,16 +51,16 @@ t_pipex	*init_pipex(int argc)
 		free(pipex);
 		exit(EXIT_FAILURE);
 	}
-	// i = 0;
-	// while (i < argc - 4)
-	// {
-	// 	if (pipe(pipex->pipe_fd + 2 * i) == -1)
-	// 	{
-	// 		free(pipex->pipe_fd);
-	// 		free(pipex);
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// 	i++;
-	// }
+	i = 0;
+	while (i < argc - 4)
+	{
+		if (pipe(pipex->pipe_fd + 2 * i) == -1)
+		{
+			free(pipex->pipe_fd);
+			free(pipex);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
 	return (pipex);
 }

@@ -6,13 +6,13 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/19 18:26:40 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/20 09:43:42 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static int	exec_pre_path(char *cmd, char **env, char **cmd_args, char **split)
+static int	exec_bef_path(char *cmd, char **env, char **cmd_args, char **split)
 {
 	if (execve(cmd, ft_split(get_command(cmd_args), ' '), env) == -1)
 	{
@@ -33,18 +33,18 @@ static int	execute_command(char *cmd, char **env)
 	char	**split;
 	char	**cmd_a;
 
-	if (!cmd || cmd[0] == '\0')
-		return (-1);
+	if (!ft_split(cmd, ' ')[0])
+		exit(1);
 	split = ft_split(cmd, ' ');
 	if (!split)
 		return (-1);
 	pn = find_path(env, cmd);
 	if (!pn)
-		return (-1);
+		return (-2);
 	cmd_a = ft_split(cmd, ' ');
 	if (execve(pn, cmd_a, env) == -1 && execve(cmd_a[0], cmd_a, env) == -1)
 	{
-		if (!exec_pre_path(cmd, env, cmd_a, split))
+		if (!exec_bef_path(cmd, env, cmd_a, split))
 			free(pn);
 	}
 	else
@@ -96,6 +96,7 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 {
 	int	read_end;
 	int	write_end;
+	int	index_error;
 
 	if (idx == 0 || idx == data.argc - 4)
 		handle_to_first_last(pipex, idx, data);
@@ -107,9 +108,15 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 		dup2(pipex->pipe_fd[write_end], STDOUT_FILENO);
 	}
 	close_pipes(pipex, data.argc - 4);
-	if (execute_command(data.argv[idx + 2], data.env) == -1)
+	index_error = execute_command(data.argv[idx + 2], data.env);
+	if (index_error == -1)
 	{
 		perror("Error3");
+		exit(1);
+	}
+	else if (index_error == -2)
+	{
+		ft_putendl_fd("env: ‘’: No such file or directory", 2);
 		exit(1);
 	}
 }
