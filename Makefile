@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/20 09:44:38 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/20 10:05:00 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ PURPLE = \033[1;35m
 RESET  = \033[0m
 
 NAME = pipex
-BONUS = double_pipex
+BONUS = multi_pipex
 
 CC = cc
 CFLAGS := -Wall -Wextra -Werror -g
