@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 14:04:50 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:12:33 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 	index_error = search_command_exec(data.argv[idx + 2], data.env);
 	if (index_error == -1)
 	{
-		perror("Error3");
+		perror("Error");
 		exit(1);
 	}
 	else if (index_error == -2)
