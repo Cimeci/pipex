@@ -6,7 +6,7 @@
 #    By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/26 10:50:48 by inowak--          #+#    #+#              #
-#    Updated: 2024/12/20 10:13:07 by inowak--         ###   ########.fr        #
+#    Updated: 2024/12/21 18:56:35 by inowak--         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ $(OBJ_LIBFT):
 bonus : $(BONUS)
 
 $(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT)
-	@$(CC) $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
 	@echo "$(ORANGE)";
 	@echo " ######    ####    ######   #######  ##  ##";
 	@echo "  ##  ##    ##      ##  ##   ##   #  ##  ##";
@@ -87,7 +87,7 @@ $(NAME): $(OBJ) $(OBJ_LIB) $(OBJ_LIBFT)
 	@echo "$(RESET)";
 
 $(BONUS): $(OBJ_BONUS) $(OBJ_LIB) $(OBJ_LIBFT)
-	@$(CC) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_LIB) $(OBJ_BONUS) $(OBJ_LIBFT) -L$(LIBFT_DIR) -I$(LIBFT_DIR) -o $(NAME)
 	@echo "$(LIGHT_CYAN)"
 	@echo " ######    #####   ##   ##  ##   ##   #####"
 	@echo "  ##  ##  ##   ##  ###  ##  ##   ##  ##   ##"

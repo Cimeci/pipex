@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/21 14:40:03 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:57:13 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	main(int argc, char **argv, char **env)
 	t_pipex	*pipex;
 	t_data	*data;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
 		ft_putstr_fd("Invalid format : ./pipex infile cmd1 ", 2);
-		ft_putendl_fd("cmd2 outfile", 2);
+		ft_putendl_fd("cmd2 ... cmdn outfile", 2);
 		exit(1);
 	}
 	pipex = init_pipex(argc);
