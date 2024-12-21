@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:50:00 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 14:10:26 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:39:58 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,35 @@ typedef struct s_data
 	int		no_file;
 }			t_data;
 
-//////////////////////////////////
-//		ft_parsing_bonus.c		//
-//////////////////////////////////
+//////////////////////////
+//		ft_parsing.c	//
+//////////////////////////
 
 void	check_input(t_data *data);
 
-//////////////////////////////////
-//		ft_find_path_bonus.c	//
-//////////////////////////////////
+//////////////////////////
+//		ft_find_path.c	//
+//////////////////////////
 
 char	*get_command(char **split);
 char	*find_path(char **env, char *cmd);
 
-//////////////////////////////////
-//		ft_process_bonus.c		//
-//////////////////////////////////
+//////////////////////////
+//		ft_process.c	//
+//////////////////////////
 
 void	process_child(t_pipex *pipex, int idx, t_data data);
 
-//////////////////////////////////
-//		ft_init_bonus.c  		//
-//////////////////////////////////
+//////////////////////////
+//		ft_init.c  		//
+//////////////////////////
 
 t_pipex	*init_pipex(int argc);
 t_data	*ft_init_data(int argc, char **argv, char **env, t_pipex *pipex);
 
-//////////////////////////////////
-//		ft_clean_bonus.c	  	//
-//////////////////////////////////
+//////////////////////////
+//		ft_clean.c	  	//
+//////////////////////////
 
 void	close_pipes(t_pipex *pipex, int pipe_count);
 void	free_cmd_a_pn(char **cmd_a, char *pn);

@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:47 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 14:06:21 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:40:23 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,3 @@ void	ft_free_all(t_pipex *pipex, t_data *data)
 	if (data)
 		free(data);
 }
-
-// ft_putstr_fd("Invalid format : ./pipex infile cmd1 ", 2);
-// ft_putendl_fd("cmd2 ... cmdn outfile", 2);
