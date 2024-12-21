@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 14:15:18 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:37:38 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,13 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 		dup2(pipex->pipe_fd[write_end], STDOUT_FILENO);
 	}
 	close_pipes(pipex, data.argc - 4);
-	index_error = search_command_exec(data.argv[idx + 2], data.env);
-	if (index_error == -1)
+	if (data.no_file == 0)
 	{
-		perror("Error");
-		exit(1);
+		index_error = search_command_exec(data.argv[idx + 2], data.env);
+		if (index_error == -1)
+		{
+			perror("Error");
+			exit(1);
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/21 14:05:18 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:36:57 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	parent(t_pipex *pipex, t_data *data)
 			ft_free_all(pipex, data);
 			exit(1);
 		}
+		data->no_file = 0;
 		i++;
 	}
 	close_pipes(pipex, data->argc - 4);
