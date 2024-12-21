@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/20 09:42:05 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:51:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_pipex	*pipex;
 	t_data	*data;
-	int		i;
 
-	i = 0;
 	if (argc < 5)
 		ft_puterror(2);
 	pipex = init_pipex(argc);

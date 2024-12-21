@@ -3,53 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_process.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/20 09:46:22 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 11:48:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	exec_bef_path(char *cmd, char **env, char **cmd_args, char **split)
+static int	exec_command(char *pn, char **cmd_a, char **env)
 {
-	if (execve(cmd, ft_split(get_command(cmd_args), ' '), env) == -1)
+	if (execve(pn, cmd_a, env) == -1 && execve(cmd_a[0], cmd_a, env) == -1)
 	{
-		ft_free(split);
-		ft_free(cmd_args);
+		free(pn);
+		ft_free(cmd_a);
 		perror("Error");
 		return (0);
 	}
 	return (1);
 }
 
-// pn -> pathname //
-// cmd_a -> cmd_args //
-
-static int	execute_command(char *cmd, char **env)
+static int	search_command_exec(char *cmd, char **env)
 {
 	char	*pn;
-	char	**split;
 	char	**cmd_a;
 
 	if (!ft_split(cmd, ' ')[0])
 		exit(1);
-	split = ft_split(cmd, ' ');
-	if (!split)
+	cmd_a = ft_split(cmd, ' ');
+	if (!cmd_a)
 		return (-1);
+	if (!access(ft_split(cmd, ' ')[0], X_OK))
+	{
+		cmd = get_command(cmd_a);
+		cmd_a = ft_split(cmd, ' ');
+	}
 	pn = find_path(env, cmd);
 	if (!pn)
 		return (-2);
-	cmd_a = ft_split(cmd, ' ');
-	if (execve(pn, cmd_a, env) == -1 && execve(cmd_a[0], cmd_a, env) == -1)
-	{
-		if (!exec_bef_path(cmd, env, cmd_a, split))
-			free(pn);
-	}
+	if (!exec_command(pn, cmd_a, env))
+		return (0);
 	else
 	{
-		ft_free(split);
 		ft_free(cmd_a);
 		free(pn);
 	}
@@ -108,7 +104,7 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 		dup2(pipex->pipe_fd[write_end], STDOUT_FILENO);
 	}
 	close_pipes(pipex, data.argc - 4);
-	index_error = execute_command(data.argv[idx + 2], data.env);
+	index_error = search_command_exec(data.argv[idx + 2], data.env);
 	if (index_error == -1)
 	{
 		perror("Error3");
