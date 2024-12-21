@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:47 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 11:50:18 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/21 14:09:02 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,10 @@ void	ft_free_error(t_pipex *pipex, t_data *data)
 	exit(1);
 }
 
-void	ft_puterror(int i)
+void	free_cmd_a_pn(char **cmd_a, char *pn)
 {
-	if (i == 1)
-		perror("Error");
-	if (i == 0)
-		ft_putendl_fd("ERROR", 2);
-	if (i == 2)
-	{
-		ft_putstr_fd("Invalid format : ./pipex infile cmd1 ", 2);
-		ft_putendl_fd("cmd2 ... cmdn outfile", 2);
-	}
-	if (i == 3)
-	{
-		ft_putstr_fd("Invalid format : ./pipex infile cmd1 ", 2);
-		ft_putendl_fd("cmd2 outfile", 2);
-	}
-	exit(0);
+	ft_free(cmd_a);
+	free(pn);
 }
 
 void	close_pipes(t_pipex *pipex, int pipe_count)

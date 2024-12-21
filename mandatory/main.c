@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:44:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/21 11:10:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/21 14:05:18 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ int	main(int argc, char **argv, char **env)
 	t_data	*data;
 
 	if (argc != 5)
-		ft_puterror(3);
+	{
+		ft_putstr_fd("Invalid format : ./pipex infile cmd1 ", 2);
+		ft_putendl_fd("cmd2 outfile", 2);
+		exit(1);
+	}
 	pipex = init_pipex(argc);
 	data = ft_init_data(argc, argv, env, pipex);
 	check_input(data);

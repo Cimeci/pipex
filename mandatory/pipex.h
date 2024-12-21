@@ -6,7 +6,7 @@
 /*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:50:00 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/20 08:15:58 by inowak--         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:06:31 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_data	*ft_init_data(int argc, char **argv, char **env, t_pipex *pipex);
 //////////////////////////
 
 void	close_pipes(t_pipex *pipex, int pipe_count);
-void	ft_puterror(int i);
+void	free_cmd_a_pn(char **cmd_a, char *pn);
 void	ft_free_all(t_pipex *pipex, t_data *data);
 void	ft_free_error(t_pipex *pipex, t_data *data);
 

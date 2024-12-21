@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:50:00 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 12:23:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/21 14:10:26 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ typedef struct s_data
 	int		no_file;
 }			t_data;
 
-///////////////////////////////////
-//		ft_parsing_bonus.c		 //
-///////////////////////////////////
+//////////////////////////////////
+//		ft_parsing_bonus.c		//
+//////////////////////////////////
 
 void	check_input(t_data *data);
 
-///////////////////////////////////
+//////////////////////////////////
 //		ft_find_path_bonus.c	//
-///////////////////////////////////
+//////////////////////////////////
 
 char	*get_command(char **split);
 char	*find_path(char **env, char *cmd);
 
-///////////////////////////////////
-//		ft_process_bonus.c		 //
-///////////////////////////////////
+//////////////////////////////////
+//		ft_process_bonus.c		//
+//////////////////////////////////
 
 void	process_child(t_pipex *pipex, int idx, t_data data);
 
@@ -71,7 +71,7 @@ t_data	*ft_init_data(int argc, char **argv, char **env, t_pipex *pipex);
 //////////////////////////////////
 
 void	close_pipes(t_pipex *pipex, int pipe_count);
-void	ft_puterror(int i);
+void	free_cmd_a_pn(char **cmd_a, char *pn);
 void	ft_free_all(t_pipex *pipex, t_data *data);
 void	ft_free_error(t_pipex *pipex, t_data *data);
 

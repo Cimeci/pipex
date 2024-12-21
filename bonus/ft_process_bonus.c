@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_process_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: inowak-- <inowak--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:40:26 by inowak--          #+#    #+#             */
-/*   Updated: 2024/12/21 11:50:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/21 14:08:30 by inowak--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ static int	search_command_exec(char *cmd, char **env)
 		return (-1);
 	if (!access(ft_split(cmd, ' ')[0], X_OK))
 	{
-		cmd = get_command(cmd_a);
-		cmd_a = ft_split(cmd, ' ');
+		if (execve(cmd, cmd_a, env) == -1)
+		{
+			cmd = get_command(cmd_a);
+			cmd_a = ft_split(cmd, ' ');
+		}
 	}
 	pn = find_path(env, cmd);
 	if (!pn)
@@ -45,10 +48,7 @@ static int	search_command_exec(char *cmd, char **env)
 	if (!exec_command(pn, cmd_a, env))
 		return (0);
 	else
-	{
-		ft_free(cmd_a);
-		free(pn);
-	}
+		free_cmd_a_pn(cmd_a, pn);
 	return (0);
 }
 
@@ -112,7 +112,7 @@ void	process_child(t_pipex *pipex, int idx, t_data data)
 	}
 	else if (index_error == -2)
 	{
-		ft_putendl_fd("env: ‘’: No such file or directory", 2);
+		perror("Error");
 		exit(1);
 	}
 }
